@@ -1,0 +1,172 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=Space+Mono:wght@400;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold transition duration-150 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-amber text-black hover:bg-amber2 focus-visible:outline-amber;
+  }
+
+  .btn-secondary {
+    @apply border border-line2 bg-white/[0.04] text-white backdrop-blur hover:border-amber/40 hover:bg-white/[0.08] focus-visible:outline-amber;
+  }
+
+  .btn-success {
+    @apply border border-green/25 bg-green/10 text-green hover:bg-green/15 focus-visible:outline-green;
+  }
+
+  .btn-danger {
+    @apply border border-red/35 bg-red/10 text-red hover:bg-red/15 focus-visible:outline-red;
+  }
+
+  .btn-warning {
+    @apply border border-amber/35 bg-amber/10 text-amber2 hover:bg-amber/15 focus-visible:outline-amber;
+  }
+
+  .btn-loading {
+    @apply opacity-70;
+  }
+}
+
+:root {
+  color-scheme: dark;
+  --ink: #000000;
+  --panel: #0a0f0d;
+  --panel-2: #121615;
+  --panel-3: #191f1c;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.17);
+  --text: #ffffff;
+  --muted: #9ca09d;
+  --faint: #5e6262;
+  --amber: #f6a313;
+  --amber-soft: #ffd98a;
+  --green: #7affb4;
+  --cyan: #55d6ff;
+  --red: #ff6b6b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 50% -8%, rgba(246, 163, 19, 0.2), rgba(246, 163, 19, 0.08) 18rem, transparent 42rem),
+    radial-gradient(circle at 78% 28%, rgba(122, 255, 180, 0.1), transparent 32rem),
+    linear-gradient(180deg, #000000 0%, #020504 44%, #000000 100%);
+  color: var(--text);
+  font-family: Manrope, Inter, system-ui, sans-serif;
+}
+
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background-size: 48px 48px;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .9), transparent 72%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.shell {
+  width: min(1280px, calc(100vw - 32px));
+  margin-inline: auto;
+}
+
+.label {
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.glass-card {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(18, 22, 21, .96), rgba(10, 15, 13, .96));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 24px 80px rgba(0,0,0,.42);
+}
+
+.terminal-card {
+  border: 1px solid rgba(255, 255, 255, .09);
+  background: rgba(5, 8, 7, .86);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+  box-shadow: 0 0 18px currentColor;
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at 50% 0%, #000 0%, rgba(0, 0, 0, 0.72) 34%, transparent 70%);
+}
+
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanline::after {
+  animation: scan 7s linear infinite;
+  background: linear-gradient(180deg, transparent, rgba(255, 217, 138, 0.055), transparent);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateY(-100%);
+}
+
+.dashboard-mock,
+.dashboard-mock * {
+  min-width: 0;
+}
+
+.dashboard-mock p,
+.dashboard-mock h3,
+.dashboard-mock span {
+  overflow-wrap: anywhere;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  70%,
+  100% {
+    transform: translateY(100%);
+  }
+}

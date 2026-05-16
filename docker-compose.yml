@@ -1,0 +1,52 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: sqlite:////data/reiops_demo.db
+      DEMO_WORKSPACE_NAME: ${DEMO_WORKSPACE_NAME:-Demo Engineering}
+      DEMO_REPO_NAME: ${DEMO_REPO_NAME:-reiops-demo}
+    volumes:
+      - api_data:/data
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"
+
+  web:
+    build:
+      context: ./apps/web
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+        NEXT_PUBLIC_TELEGRAM_BOT_URL: ${NEXT_PUBLIC_TELEGRAM_BOT_URL:-https://t.me/ReiOps_bot?start=demo}
+    env_file:
+      - .env
+    environment:
+      API_URL: http://api:8000
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      NEXT_PUBLIC_TELEGRAM_BOT_URL: ${NEXT_PUBLIC_TELEGRAM_BOT_URL:-https://t.me/ReiOps_bot?start=demo}
+      PUBLIC_WEB_URL: ${PUBLIC_WEB_URL:-http://localhost:3000}
+      WEB_DEMO_URL: ${WEB_DEMO_URL:-http://localhost:3000/demo}
+    depends_on:
+      - api
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+
+  bot:
+    build:
+      context: ./apps/bot
+    env_file:
+      - .env
+    environment:
+      API_URL: http://api:8000
+      PUBLIC_WEB_URL: ${PUBLIC_WEB_URL:-http://localhost:3000}
+      WEB_DEMO_URL: ${WEB_DEMO_URL:-http://localhost:3000/demo}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  api_data:
